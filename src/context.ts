@@ -3,6 +3,7 @@ import { createContext, useContext } from "react";
 type Task = {
   id: number;
   title: string;
+  checked: boolean;
 };
 
 type TaskData = {

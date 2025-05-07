@@ -15,7 +15,7 @@ function App() {
 
   const addTask = () => {
     setTaskID(taskID + 1);
-    return { id: taskID, title: task };
+    return { id: taskID, title: task, checked: false };
   };
 
   return (
