@@ -5,9 +5,8 @@
         Roboto Mono,
         monospace;
     line-height: 1.5;
+    background-color: white;
     font-weight: 400;
-
-    color-scheme: light dark;
 
     font-synthesis: none;
     text-rendering: optimizeLegibility;
