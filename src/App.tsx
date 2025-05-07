@@ -20,11 +20,11 @@ function App() {
 
   return (
     <>
-      <main className="container border">
+      <main className="container border w-screen">
         <AppContext.Provider value={{ taskList, removeTask }}>
-          <section>
+          <section className="flex w-full">
             <input
-              className="border border-black py-2 px-3"
+              className="border border-black py-2 px-3 flex-1"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTask(e.target.value)
               }
