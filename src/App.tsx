@@ -26,9 +26,10 @@ function App() {
     setTaskList(newTaskList);
   };
 
-  const addTask = () => {
+  const newTask = () => {
+    if (!task.localeCompare("")) return alert("Task title must not be empty!");
     setTaskID(taskID + 1);
-    return { id: taskID, title: task, checked: false };
+    setTaskList([...taskList, { id: taskID, title: task, checked: false }]);
   };
 
   return (
@@ -42,9 +43,7 @@ function App() {
                 setTask(e.target.value)
               }
             ></input>
-            <Button onClick={() => setTaskList([...taskList, addTask()])}>
-              add task
-            </Button>
+            <Button onClick={newTask}>add task</Button>
           </section>
           <TaskList />
         </AppContext.Provider>
