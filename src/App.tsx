@@ -20,9 +20,9 @@ function App() {
 
   return (
     <>
-      <main className="container border w-screen">
+      <main className="container h-full w-full flex flex-col">
         <AppContext.Provider value={{ taskList, removeTask }}>
-          <section className="flex w-full">
+          <section className="flex w-full py-2">
             <input
               className="border border-black py-2 px-3 flex-1"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
@@ -33,9 +33,7 @@ function App() {
               add task
             </Button>
           </section>
-          <section className="max-h-[80vh] overflow-y-scroll scroll-smooth px-3 py-2">
-            <TaskList />
-          </section>
+          <TaskList />
         </AppContext.Provider>
       </main>
     </>
