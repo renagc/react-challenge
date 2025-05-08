@@ -7,15 +7,17 @@ function TaskItem({ item }: { item: Task }) {
   const { removeTask } = useTaskContext();
 
   return (
-    <>
-      <div className="flex gap-2">
+    <tr>
+      <td>
         <input
           type="checkbox"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setChecked(e.target.checked)
           }
         />
-        <p>{item.id}</p>
+      </td>
+      <td>{item.id}</td>
+      <td>
         <input
           type="text"
           value={value}
@@ -23,23 +25,24 @@ function TaskItem({ item }: { item: Task }) {
             setValue(e.target.value)
           }
           disabled
-          autoFocus
         />
-      </div>
-      <div className="flex gap-2">
+      </td>
+      <td>
         {!checked && (
           <button className="hover:underline hover:italic cursor-pointer">
             edit
           </button>
         )}
+      </td>
+      <td>
         <button
           className="hover:underline hover:italic cursor-pointer"
           onClick={() => removeTask(item.id)}
         >
           delete
         </button>
-      </div>
-    </>
+      </td>
+    </tr>
   );
 }
 
@@ -48,13 +51,24 @@ function TaskList() {
 
   return (
     <>
-      <ul>
-        {taskList.map((item: Task) => (
-          <li key={item.id} className="list-none flex justify-between">
-            <TaskItem item={item} />
-          </li>
-        ))}
-      </ul>
+      <table className="table-auto w-full">
+        <thead>
+          <tr>
+            <th></th>
+            <th className="text-left">ID</th>
+            <th className="text-left">Tasks</th>
+          </tr>
+        </thead>
+        <tbody>
+          {taskList.length !== 0 ? (
+            taskList.map((item: Task) => <TaskItem key={item.id} item={item} />)
+          ) : (
+            <tr>
+              <td colSpan={5}>No tasks available.</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
       <div className="flex gap-2">
         <input id="checkbox-hide-complete" type="checkbox" />
         <label htmlFor="checkbox-hide-complete">Hide Complete</label>
