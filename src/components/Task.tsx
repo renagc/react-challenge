@@ -3,6 +3,8 @@ import { useTaskContext, type Task } from "../context";
 
 function TaskItem({ item }: { item: Task }) {
   const { removeTask, updateTask } = useTaskContext();
+  const [enable, setEnable] = useState<boolean>(true);
+  const [title, setTitle] = useState<string>(item.title);
 
   const padding = "py-2 px-3";
 
@@ -11,33 +13,45 @@ function TaskItem({ item }: { item: Task }) {
       <td className={padding}>
         <input
           type="checkbox"
-          onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
             updateTask({
               ...item,
               checked: e.target.checked,
-            })
-          }
+            });
+          }}
           checked={item.checked}
         />
       </td>
       <td className={padding}>{item.id}</td>
-      <td className={padding}>
+      <td className={padding + " w-full"}>
         <input
           type="text"
-          value={item.title}
+          className={!enable ? "border w-full focus:outline-0" : "w-full"}
+          value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            updateTask({
-              ...item,
-              title: e.target.value,
-            })
+            setTitle(e.target.value)
           }
-          disabled
+          disabled={enable}
         />
       </td>
       <td className={padding}>
         {!item.checked && (
-          <button className="hover:underline hover:italic cursor-pointer">
-            edit
+          <button
+            className="hover:underline hover:italic cursor-pointer"
+            onClick={() => {
+              if (!title.localeCompare("")) {
+                alert("The task title must not be empty");
+                setTitle(item.title);
+              } else if (!enable) {
+                updateTask({
+                  ...item,
+                  title: title,
+                });
+              }
+              setEnable(!enable);
+            }}
+          >
+            {enable ? "edit" : "save"}
           </button>
         )}
       </td>
