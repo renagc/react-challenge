@@ -47,13 +47,19 @@ function TaskList() {
   const { taskList } = useTaskContext();
 
   return (
-    <ul>
-      {taskList.map((item: Task) => (
-        <li key={item.id} className="list-none flex justify-between">
-          <TaskItem item={item} />
-        </li>
-      ))}
-    </ul>
+    <>
+      <ul>
+        {taskList.map((item: Task) => (
+          <li key={item.id} className="list-none flex justify-between">
+            <TaskItem item={item} />
+          </li>
+        ))}
+      </ul>
+      <div className="flex gap-2">
+        <input id="checkbox-hide-complete" type="checkbox" />
+        <label htmlFor="checkbox-hide-complete">Hide Complete</label>
+      </div>
+    </>
   );
 }
 
