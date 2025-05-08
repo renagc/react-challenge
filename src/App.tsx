@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Button from "./components/Button";
 import AppContext, { type Task } from "./context";
 import TaskList from "./components/Task";
@@ -31,6 +31,18 @@ function App() {
     setTaskID(taskID + 1);
     setTaskList([...taskList, { id: taskID, title: task, checked: false }]);
   };
+
+  useEffect(() => {
+    if (taskID === 0) {
+      const getTaskID = localStorage.getItem("currentTaskID");
+      if (getTaskID) setTaskID(Number(getTaskID));
+      const getTaskList = localStorage.getItem("taskList");
+      if (getTaskList) setTaskList(JSON.parse(getTaskList));
+      return;
+    }
+    localStorage.setItem("currentTaskID", taskID.toString());
+    localStorage.setItem("taskList", JSON.stringify(taskList));
+  }, [taskList, taskID]);
 
   return (
     <>

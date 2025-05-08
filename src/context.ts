@@ -9,6 +9,7 @@ type Task = {
 type TaskData = {
   taskList: Task[];
   removeTask: (id: number) => void;
+  updateTask: (updatedTask: Task) => void;
 };
 
 const TaskContext = createContext<TaskData | undefined>(undefined);
