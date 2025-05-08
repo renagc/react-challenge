@@ -13,8 +13,7 @@ function TaskItem({ item }: { item: Task }) {
           type="checkbox"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             updateTask({
-              id: item.id,
-              title: item.title,
+              ...item,
               checked: e.target.checked,
             })
           }
@@ -28,9 +27,8 @@ function TaskItem({ item }: { item: Task }) {
           value={item.title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             updateTask({
-              id: item.id,
+              ...item,
               title: e.target.value,
-              checked: item.checked,
             })
           }
           disabled
@@ -58,11 +56,27 @@ function TaskItem({ item }: { item: Task }) {
 function TaskList() {
   const { taskList } = useTaskContext();
   const [hide, setHide] = useState<boolean>(false);
+  const [sort, setSort] = useState<boolean | undefined>(undefined);
+
+  const handleButtonSort = () => {
+    if (sort === undefined) setSort(true);
+    else if (sort === false) setSort(undefined);
+    else setSort(false);
+  };
+
+  const handleTableSort = (a: Task, b: Task) => {
+    if (sort === undefined) return 0;
+    else if (sort) return a.title.localeCompare(b.title);
+    else return b.title.localeCompare(a.title);
+  };
 
   return (
     <section className="flex-1 flex flex-col gap-4 overflow-hidden w-full py-2">
-      <button className="font-bold hover:underline self-start cursor-pointer">
-        Tasks
+      <button
+        className="font-bold hover:underline self-start cursor-pointer"
+        onClick={handleButtonSort}
+      >
+        Tasks{sort !== undefined && (sort === true ? "⇄" : "⇆")}
       </button>
       <div className="overflow-y-auto w-full border rounded">
         <table className="table-auto w-full">
@@ -70,6 +84,7 @@ function TaskList() {
             {taskList.length !== 0 ? (
               taskList
                 .filter((item: Task) => !(hide && item.checked))
+                .sort(handleTableSort)
                 .map((item: Task) => <TaskItem key={item.id} item={item} />)
             ) : (
               <tr>
