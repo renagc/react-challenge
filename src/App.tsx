@@ -13,6 +13,19 @@ function App() {
     setTaskList(newTaskList);
   };
 
+  const updateTask = (updatedTask: Task) => {
+    const newTaskList = taskList.map((task) => {
+      if (task.id === updatedTask.id)
+        return {
+          ...task,
+          title: updatedTask.title,
+          checked: updatedTask.checked,
+        };
+      return task;
+    });
+    setTaskList(newTaskList);
+  };
+
   const addTask = () => {
     setTaskID(taskID + 1);
     return { id: taskID, title: task, checked: false };
@@ -21,7 +34,7 @@ function App() {
   return (
     <>
       <main className="container h-full w-full flex flex-col">
-        <AppContext.Provider value={{ taskList, removeTask }}>
+        <AppContext.Provider value={{ taskList, removeTask, updateTask }}>
           <section className="flex w-full py-2">
             <input
               className="border border-black py-2 px-3 flex-1"

@@ -2,9 +2,7 @@ import { useState } from "react";
 import { useTaskContext, type Task } from "../context";
 
 function TaskItem({ item }: { item: Task }) {
-  const [value, setValue] = useState<string>(item.title);
-  const [checked, setChecked] = useState<boolean>(item.checked);
-  const { removeTask } = useTaskContext();
+  const { removeTask, updateTask } = useTaskContext();
 
   const padding = "py-2 px-3";
 
@@ -14,23 +12,32 @@ function TaskItem({ item }: { item: Task }) {
         <input
           type="checkbox"
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setChecked(e.target.checked)
+            updateTask({
+              id: item.id,
+              title: item.title,
+              checked: e.target.checked,
+            })
           }
+          checked={item.checked}
         />
       </td>
       <td className={padding}>{item.id}</td>
       <td className={padding}>
         <input
           type="text"
-          value={value}
+          value={item.title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-            setValue(e.target.value)
+            updateTask({
+              id: item.id,
+              title: e.target.value,
+              checked: item.checked,
+            })
           }
           disabled
         />
       </td>
       <td className={padding}>
-        {!checked && (
+        {!item.checked && (
           <button className="hover:underline hover:italic cursor-pointer">
             edit
           </button>
@@ -50,6 +57,7 @@ function TaskItem({ item }: { item: Task }) {
 
 function TaskList() {
   const { taskList } = useTaskContext();
+  const [hide, setHide] = useState<boolean>(false);
 
   return (
     <section className="flex-1 flex flex-col gap-4 overflow-hidden w-full py-2">
@@ -60,9 +68,9 @@ function TaskList() {
         <table className="table-auto w-full">
           <tbody>
             {taskList.length !== 0 ? (
-              taskList.map((item: Task) => (
-                <TaskItem key={item.id} item={item} />
-              ))
+              taskList
+                .filter((item: Task) => !(hide && item.checked))
+                .map((item: Task) => <TaskItem key={item.id} item={item} />)
             ) : (
               <tr>
                 <td className="px-3 py-2">
@@ -75,7 +83,11 @@ function TaskList() {
         </table>
       </div>
       <div className="flex gap-2">
-        <input id="checkbox-hide-complete" type="checkbox" />
+        <input
+          id="checkbox-hide-complete"
+          type="checkbox"
+          onChange={() => setHide(!hide)}
+        />
         <label htmlFor="checkbox-hide-complete">Hide Complete</label>
       </div>
     </section>
