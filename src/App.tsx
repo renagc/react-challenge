@@ -30,6 +30,7 @@ function App() {
     if (!task.localeCompare("")) return alert("Task title must not be empty!");
     setTaskID(taskID + 1);
     setTaskList([...taskList, { id: taskID, title: task, checked: false }]);
+    setTask("");
   };
 
   useEffect(() => {
@@ -46,14 +47,16 @@ function App() {
 
   return (
     <>
-      <main className="container h-full w-full flex flex-col">
+      <main className="container h-full w-full flex flex-col gap-2">
         <AppContext.Provider value={{ taskList, removeTask, updateTask }}>
-          <section className="flex w-full py-2">
+          <h1 className="font-bold text-2xl">Create a Task</h1>
+          <section className="flex w-full py-2 gap-4">
             <input
-              className="border border-black py-2 px-3 flex-1"
+              className="border border-black py-2 px-3 flex-1 focus:outline-0 rounded"
               onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                 setTask(e.target.value)
               }
+              value={task}
             ></input>
             <Button onClick={newTask}>add task</Button>
           </section>

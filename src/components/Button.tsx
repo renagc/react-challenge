@@ -7,7 +7,7 @@ function Button({
 }) {
   return (
     <button
-      className="cursor-pointer bg-black text-white px-3 py-2 border border-black hover:bg-white hover:text-black"
+      className="cursor-pointer bg-black text-white px-3 py-2 border border-black rounded hover:bg-white hover:text-black"
       onClick={onClick}
     >
       {children}
