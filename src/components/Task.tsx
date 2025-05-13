@@ -26,7 +26,11 @@ function TaskItem({ item }: { item: Task }) {
       <td className={padding + " w-full"}>
         <input
           type="text"
-          className={!enable ? "border w-full focus:outline-0" : "w-full"}
+          className={
+            !enable
+              ? "border w-full py-2 px-3 rounded focus:outline-0"
+              : "w-full py-2 px-3"
+          }
           value={title}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
             setTitle(e.target.value)
